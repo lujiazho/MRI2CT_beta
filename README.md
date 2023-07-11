@@ -6,3 +6,4 @@ Adapted from [ControlNet](https://github.com/lllyasviel/ControlNet) for MRI to C
 
 - prepare dataset
 - run train_MRI2CT.py
+- All done
