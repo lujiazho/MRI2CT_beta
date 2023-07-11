@@ -1,0 +1,12 @@
+image_log/
+lightning_logs/
+data/
+data_128_size/
+
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+
+__pycache__/
+*.mp4
