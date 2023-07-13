@@ -4,6 +4,8 @@ Adapted from [ControlNet](https://github.com/lllyasviel/ControlNet) for MRI to C
 
 # Run
 
+It's super easy to run
+
 - git
 ```
 git clone https://github.com/lujiazho/MRI2CT_beta.git
