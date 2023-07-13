@@ -1,5 +1,6 @@
 image_log/
 lightning_logs/
+data/
 data_128_size/
 
 *.pth
