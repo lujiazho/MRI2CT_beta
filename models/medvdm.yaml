@@ -3,26 +3,13 @@ model:
   params:
     linear_start: 0.00085
     linear_end: 0.0120
-    num_timesteps_cond: 1
     log_every_t: 200
     timesteps: 1000
     first_stage_key: "jpg"
-    cond_stage_key: "txt" # not used
     control_key: "hint"
     image_size: 128
     channels: 1
-    cond_stage_trainable: false
-    conditioning_key: crossattn # not used cause only for cond_stage, so it will be none
-    monitor: val/loss_simple_ema
     scale_factor: 0.18215
-    use_ema: False
-    only_mid_control: False
-
-    # we don't have txt conditioning so we don't need this for now
-    # ucg_training:
-    #   txt:
-    #     p: 0.1
-    #     val: ""
 
     control_stage_config:
       target: cldm.medvdm.SideUnetModel
@@ -57,28 +44,3 @@ model:
         context_dim: -1
         use_checkpoint: True
         legacy: False
-
-    first_stage_config: __is_pixel_space__
-      # target: ldm.models.autoencoder.AutoencoderKL
-      # params:
-      #   embed_dim: 4
-      #   monitor: val/rec_loss
-      #   ddconfig:
-      #     double_z: true
-      #     z_channels: 4
-      #     resolution: 256
-      #     in_channels: 3
-      #     out_ch: 3
-      #     ch: 128
-      #     ch_mult:
-      #     - 1
-      #     - 2
-      #     - 4
-      #     - 4
-      #     num_res_blocks: 2
-      #     attn_resolutions: []
-      #     dropout: 0.0
-      #   lossconfig:
-      #     target: torch.nn.Identity
-
-    cond_stage_config: __is_unconditional__

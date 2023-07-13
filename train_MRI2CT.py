@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 from cldm.logger import ImageLogger
 from cldm.model import create_model, load_state_dict
 
+import os
 import json
 import cv2
 import numpy as np
@@ -19,6 +20,8 @@ class MyDataset(Dataset):
             for line in f:
                 self.data.extend(json.loads(line))
 
+        self.root = '/ifs/loni/faculty/shi/spectrum/Student_2020/lzhong/MRI2CT'
+
     def __len__(self):
         return len(self.data)
 
@@ -27,6 +30,9 @@ class MyDataset(Dataset):
 
         source_filepath = item['source']
         target_filepath = item['target']
+
+        source_filepath = os.path.join(self.root, source_filepath)
+        target_filepath = os.path.join(self.root, target_filepath)
 
         source = cv2.imread(source_filepath, cv2.IMREAD_GRAYSCALE)[..., np.newaxis]
         target = cv2.imread(target_filepath, cv2.IMREAD_GRAYSCALE)[..., np.newaxis]
@@ -51,27 +57,21 @@ class MyDataset(Dataset):
 
 if __name__ == '__main__':
     # Configs
-    resume_path = './lightning_logs/version_1/checkpoints/epoch=0-step=19999.ckpt'
+    # resume_path = './lightning_logs/version_1/checkpoints/epoch=0-step=19999.ckpt'
     batch_size = 4
     logger_freq = 300
     learning_rate = 1e-5
-    # sd_locked = True
-    only_mid_control = False
-
 
     # First use cpu to load models. Pytorch Lightning will automatically move it to GPUs.
     model = create_model('./models/medvdm.yaml').cpu()
-    model.load_state_dict(load_state_dict(resume_path, location='cpu'))
+    # model.load_state_dict(load_state_dict(resume_path, location='cpu'))
     model.learning_rate = learning_rate
-    # model.sd_locked = sd_locked
-    model.only_mid_control = only_mid_control
-
 
     # Misc
     dataset = MyDataset()
     dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size, shuffle=True)
     logger = ImageLogger(batch_frequency=logger_freq, log_images_kwargs={'sample': True})
-    trainer = pl.Trainer(gpus=2, precision=32, callbacks=[logger], max_steps=50000, accumulate_grad_batches=4)
+    trainer = pl.Trainer(gpus=1, precision=32, callbacks=[logger], max_steps=300, accumulate_grad_batches=1)
 
 
     # Train!
