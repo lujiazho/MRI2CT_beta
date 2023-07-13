@@ -6,7 +6,7 @@ Adapted from [ControlNet](https://github.com/lllyasviel/ControlNet) for MRI to C
 
 - git
 ```
-git clone
+git clone https://github.com/lujiazho/MRI2CT_beta.git
 cd MRI2CT_beta
 ```
 
