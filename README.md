@@ -4,6 +4,7 @@ Adapted from [ControlNet](https://github.com/lllyasviel/ControlNet) for MRI to C
 
 # Run
 
-- prepare dataset
-- run train_MRI2CT.py
-- All done
+The Dataset will directly refer to the prepared data under my directory, so it's safe to just run
+```
+CUDA_VISIBLE_DEVICES=3 python train_MRI2CT.py
+```
